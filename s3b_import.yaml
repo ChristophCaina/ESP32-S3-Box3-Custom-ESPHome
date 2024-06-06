@@ -179,6 +179,13 @@ switch:
             - delay: 50ms
             - micro_wake_word.start       
 
+  - platform: template
+    name: Display conversation
+    id: display_conversation
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    entity_category: config
+
 output:
   - platform: ledc
     pin: GPIO47
