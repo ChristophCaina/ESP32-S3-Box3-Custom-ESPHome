@@ -1574,9 +1574,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: climate_page 
-            # - component.update: s3_box_lcd
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: climate_page
@@ -1590,10 +1591,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: climate_page 
-            # - component.update: s3_box_lcd
-
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: climate_page
@@ -1607,9 +1608,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: climate_page 
-            # - component.update: s3_box_lcd
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: climate_page
@@ -1623,9 +1625,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: climate_page 
-            # - component.update: s3_box_lcd
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
     #### scenes page ###
   - platform: touchscreen
@@ -1640,9 +1643,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: scenes_page 
-            # - component.update: s3_box_lcd
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: scenes_page
@@ -1656,9 +1660,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: scenes_page 
-            # - component.update: s3_box_lcd
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
 
   - platform: touchscreen
@@ -1673,9 +1678,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: scenes_page 
-            # - component.update: s3_box_lcd
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: scenes_page
@@ -1689,10 +1695,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: scenes_page 
-            # - component.update: s3_box_lcd
-
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: scenes_page
@@ -1706,11 +1712,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: scenes_page 
-            # - component.update: s3_box_lcd
-
-
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: scenes_page
@@ -1724,9 +1729,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: scenes_page 
-            # - component.update: s3_box_lcd
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
             
   - platform: touchscreen
     page_id: info_page
@@ -1745,7 +1751,6 @@ binary_sensor:
             operation: Next
             cycle: true
             
-
         #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
             # - display.page.show: scenes_page 
             # - component.update: s3_box_lcd
