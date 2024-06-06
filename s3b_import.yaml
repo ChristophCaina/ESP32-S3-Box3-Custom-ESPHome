@@ -26,13 +26,13 @@ substitutions:
   replying_illustration_background_color: 'ffffff'
   error_illustration_background_color: 'ffffff'
   
-####################################################################
-#### change the micro wake word to be used on the line below   #####
-####      options are okay_nabu, hey_jarvis, alexa             #####
-####################################################################
+########################################################################################
+#### change the micro wake word to be used by uncommenting the wakeword you want.  #####
+####          make sure, that the other wakewords are commented out!               #####
+########################################################################################
   micro_wake_word_model: okay_nabu
-
-
+# micro_wake_word_model: hey_jarvis
+# micro_wake_word_model: alexa
 ####################################################################
 
 esphome:
