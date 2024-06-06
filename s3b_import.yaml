@@ -11,12 +11,30 @@
 substitutions:
   name: esp32-s3box-3
   friendly_name: ESP32-S3-Box-3
+
+  loading_illustration_file: images/loading.png
+  idle_illustration_file: images/idle.png
+  listening_illustration_file: images/listening.png
+  thinking_illustration_file: images/thinking.png
+  replying_illustration_file: images/replying.png
+  error_illustration_file: images/error.png
+
+  loading_illustration_background_color: 'ffffff'
+  idle_illustration_background_color: 'ffffff'
+  listening_illustration_background_color: 'ffffff'
+  thinking_illustration_background_color: 'ffffff'
+  replying_illustration_background_color: 'ffffff'
+  error_illustration_background_color: 'ffffff'
+  
 ####################################################################
 #### change the micro wake word to be used on the line below   #####
 ####      options are okay_nabu, hey_jarvis, alexa             #####
 ####################################################################
   micro_wake_word_model: okay_nabu
+
+
 ####################################################################
+
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
@@ -29,7 +47,8 @@ esphome:
       - component.update: s3_box_lcd
   project:
     name: "BigBobbas.s3box"
-    version: "2024.06.01"
+    version: "2024.06.02"
+    
 esp32:
   board: esp32s3box
   flash_size: 16MB
@@ -46,11 +65,9 @@ esp32:
         source: github://jesserockz/esp32-s3-box-3-board@main
         refresh: 0s
 
-    
 psram:
   mode: octal
   speed: 80MHz
- 
   
 external_components:
   - source:
@@ -73,9 +90,7 @@ ota:
 logger:
   hardware_uart: USB_SERIAL_JTAG
 
-
 wifi:
- 
   ap:
     ssid: ${name}
     password: s3box123
@@ -87,9 +102,11 @@ wifi:
   on_disconnect:
     - lambda: |-
         id(wifi_connection) = false;
+
 time:
   - platform: homeassistant
     id: ha_time
+
 interval:
   - interval: 10s
     then:
@@ -214,7 +231,6 @@ adf_pipeline:
     sample_rate: 16000
     bits_per_sample: 16bit
     fixed_settings: true
-
 
 media_player:
   - platform: adf_pipeline
@@ -344,34 +360,34 @@ globals:
     type: int
     restore_value: no
     initial_value: '5'
-
+    
 image:
-  - file: images/error.png
+  - file: ${error_illustration_file}
     id: error_img
     resize: 320x240
     type: RGB24
     use_transparency: true
-  - file: images/idle.png
+  - file: ${idle_illustration_file}
     id: idle_img
     resize: 320x240
     type: RGB24
     use_transparency: true
-  - file: images/listening.png
+  - file: ${listening_illustration_file}
     id: listening_img
     resize: 320x240
     type: RGB24
     use_transparency: true
-  - file: images/thinking.png
+  - file: ${thinking_illustration_file}
     id: thinking_img
     resize: 320x240
     type: RGB24
     use_transparency: true
-  - file: images/replying.png
+  - file: ${thinking_illustration_file}
     id: replying_img
     resize: 320x240
     type: RGB24
     use_transparency: true
-  - file: images/loading.png
+  - file: ${loading_illustration_file}
     id: loading_img
     resize: 320x240
     type: RGB24
@@ -387,7 +403,6 @@ sensor:
     humidity:
       name: "Humidity"
     update_interval: 60s
-
 
   - platform: adc
     pin: GPIO10
@@ -428,7 +443,6 @@ text_sensor:
   - platform: template
     id: wakeword_location
     
-
 font:
   - file: "fonts/consola.ttf"
     id: my_font
@@ -449,7 +463,6 @@ font:
   - file: "fonts/consola.ttf"
     id: my_font5
     size: 22
-
 
   - file: "fonts/materialdesignicons-webfont.ttf"
     id: icon_font_55
@@ -544,6 +557,19 @@ font:
     size: 72
 
 color:
+  - id: idle_color
+    hex: ${idle_illustration_background_color}
+  - id: listening_color
+    hex: ${listening_illustration_background_color}
+  - id: thinking_color
+    hex: ${thinking_illustration_background_color}
+  - id: replying_color
+    hex: ${replying_illustration_background_color}
+  - id: loading_color
+    hex: ${loading_illustration_background_color}
+  - id: error_color
+    hex: ${error_illustration_background_color}
+
   - id: green
     hex: '75D15F'
   - id: red
@@ -592,7 +618,7 @@ display:
     pages:
       - id: idle_page ##### home page ######
         lambda: |-    
-          it.fill(id(black));
+          it.fill(id(idle_color));
           if(id(api_connection) == true) {
                   it.printf(15, 5, id(icon_font_55), blue, "\U000F07D0");      
           } else {
@@ -645,20 +671,13 @@ display:
                  it.printf(190, 5, id(icon_font_55), lime, "\U000F057E"); 
           }
           it.printf(250, 5, id(icon_font_55), pink, "\U000F1C6F");
-
-         
           it.printf(20, 75, id(icon_font_80), blue,"\U000F050F");
           it.printf(40, 120, id(my_font3), white, "%.f", id(s3temp).state);
           it.printf(120, 75, id(icon_font_80), yellow,"\U000F06E8" );
           it.printf(220, 75, id(icon_font_80), purple,"\U000F0210");
-
-
           it.printf(20, 155, id(icon_font_80), red,"\U000F075A");
           it.printf(120, 155, id(icon_font_80), blue,"\U000F0FCE");
           it.printf(220, 155, id(icon_font_80), lime,"\U000F05CB");
-
-
-
 
       - id: template_page
         lambda: |-
@@ -709,8 +728,6 @@ display:
                   it.printf(135, 5, id(icon_font_55), red, "\U000F007A");
               }
           }
-
-
           if(id(mute_switch).state) {
                  it.printf(190, 5, id(icon_font_55), red, "\U000F0581"); 
           } else {
@@ -721,18 +738,13 @@ display:
           } else {
                  it.printf(190, 5, id(icon_font_55), lime, "\U000F057E"); 
           }
-
           it.printf(250, 5, id(icon_font_55), pink, "\U000F1C6F");
-
           it.printf(20, 75, id(icon_font_80), light_blue,"\U000F06E8");
           it.printf(120, 75, id(icon_font_80), light_blue,"\U000F06E8");
           it.printf(220, 75, id(icon_font_80), light_blue, "\U000F06E8");
-
-
           it.printf(20, 155, id(icon_font_80), light_blue,"\U000F06E8");
           it.printf(120, 155, id(icon_font_80), light_blue,"\U000F06E8");
           it.printf(220, 155, id(icon_font_80), light_blue, "\U000F06E8");
-
 
       - id: info_page
         lambda: |-
@@ -793,7 +805,6 @@ display:
           } else {
                  it.printf(190, 5, id(icon_font_55), lime, "\U000F057E"); 
           }
-
           it.printf(250, 5, id(icon_font_55), pink, "\U000F1C6F");
 
                     it.printf(160, 80, id(my_font5), yellow, TextAlign::CENTER, "IP: %s", id(ip_addr).state.c_str());
@@ -849,8 +860,6 @@ display:
                   it.printf(135, 5, id(icon_font_55), red, "\U000F007A");
               }
           }
-
-
           if(id(mute_switch).state) {
                  it.printf(190, 5, id(icon_font_55), red, "\U000F0581"); 
           } else {
@@ -861,15 +870,10 @@ display:
           } else {
                  it.printf(190, 5, id(icon_font_55), lime, "\U000F057E"); 
           }
-
           it.printf(250, 5, id(icon_font_55), pink, "\U000F1C6F");
-
-
           it.printf(20, 75, id(icon_font_80), light_blue,"\U000F050F");
           it.printf(120, 75, id(icon_font_80), light_blue,"\U000F050F");
           it.printf(220, 75, id(icon_font_80), light_blue, "\U000F050F");
-
-
           it.printf(20, 155, id(icon_font_80), light_blue,"\U000F050F");
           it.printf(120, 155, id(icon_font_80), light_blue,"\U000F050F");
           it.printf(220, 155, id(icon_font_80), light_blue, "\U000F050F");
@@ -923,8 +927,6 @@ display:
                   it.printf(135, 5, id(icon_font_55), red, "\U000F007A");
               }
           }
-
-
           if(id(mute_switch).state) {
                  it.printf(190, 5, id(icon_font_55), red, "\U000F0581"); 
           } else {
@@ -936,12 +938,9 @@ display:
                  it.printf(190, 5, id(icon_font_55), lime, "\U000F057E"); 
           }
           it.printf(250, 5, id(icon_font_55), pink, "\U000F1C6F");
-
           it.printf(20, 75, id(icon_font_80), light_blue,"\U000F0335");
           it.printf(120, 75, id(icon_font_80), light_blue,"\U000F0335");
           it.printf(220, 75, id(icon_font_80), light_blue, "\U000F0335");
-
-
           it.printf(20, 155, id(icon_font_80), light_blue,"\U000F0335");
           it.printf(120, 155, id(icon_font_80), light_blue,"\U000F0335");
           it.printf(220, 155, id(icon_font_80), light_blue, "\U000F0335");
@@ -995,8 +994,6 @@ display:
                   it.printf(135, 5, id(icon_font_55), red, "\U000F007A");
               }
           }
-
-
           if(id(mute_switch).state) {
                  it.printf(190, 5, id(icon_font_55), red, "\U000F0581"); 
           } else {
@@ -1007,9 +1004,7 @@ display:
           } else {
                  it.printf(190, 5, id(icon_font_55), lime, "\U000F057E"); 
           }
-
           it.printf(250, 5, id(icon_font_55), pink, "\U000F1C6F");
-
           it.printf(20, 120, id(icon_font_80), blue,"\U000F075E");
           it.printf(120, 120, id(icon_font_80), blue,"\U000F040E");
           it.printf(220, 120, id(icon_font_80), blue,"\U000F075D");
@@ -1063,8 +1058,6 @@ display:
                   it.printf(135, 5, id(icon_font_55), red, "\U000F007A");
               }
           }
-
-
           if(id(mute_switch).state) {
                  it.printf(190, 5, id(icon_font_55), red, "\U000F0581"); 
           } else {
@@ -1076,12 +1069,9 @@ display:
                  it.printf(190, 5, id(icon_font_55), lime, "\U000F057E"); 
           }
           it.printf(250, 5, id(icon_font_55), pink, "\U000F1C6F");   
-
           it.printf(20, 75, id(icon_font_80), light_blue,"\U000F0FCE");
           it.printf(120, 75, id(icon_font_80), light_blue,"\U000F0FCE");
           it.printf(220, 75, id(icon_font_80), light_blue, "\U000F0FCE");
-
-
           it.printf(20, 155, id(icon_font_80), light_blue,"\U000F0FCE");
           it.printf(120, 155, id(icon_font_80), light_blue,"\U000F0FCE");
           it.printf(220, 155, id(icon_font_80), light_blue, "\U000F0FCE");
@@ -1094,33 +1084,34 @@ display:
       #   lambda: |-
       #     it.image(0, 0, id(loading_img));
 
-
       - id: loading_page
         lambda: |-
-          it.fill(Color::BLACK);
+          it.fill(id(loading_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(loading_img), ImageAlign::CENTER);
 
       - id: listening_page
         lambda: |-
-          it.fill(Color::BLACK);
+          it.fill(id(listening_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(listening_img), ImageAlign::CENTER);
       
       - id: thinking_page
         lambda: |-
-          it.fill(Color::BLACK);
+          it.fill(id(thinking_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(thinking_img), ImageAlign::CENTER);
           
       - id: replying_page
         lambda: |-
-          it.fill(Color::BLACK);
+          it.fill(id(replying_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(replying_img), ImageAlign::CENTER);
+          
       - id: error_page
         lambda: |-
-          it.fill(Color::BLACK);
+          it.fill(id(error_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(error_img), ImageAlign::CENTER);
+          
       - id: muted_page
         lambda: |-
-          it.fill(Color::BLACK);
+          it.fill(id(error_color));
           it.printf(160, 120, id(my_font4), yellow, TextAlign::CENTER, "Mic & Speaker - Muted");
 
 
@@ -1232,7 +1223,6 @@ binary_sensor:
     entity_category: diagnostic
     on_press:
       - light.toggle: led
-
 
 #######     red circle home button   #####################
   - platform: gt911
@@ -1431,7 +1421,6 @@ binary_sensor:
             - delay: 100ms
             - micro_wake_word.start         
             
-            
 ########### end of control buttons #######################
 ########### set of 6 control buttons per page to get you started - just give each button an id: also uncomment the 3 lines below y_max: and add your automation #######################
   - platform: touchscreen
@@ -1447,9 +1436,9 @@ binary_sensor:
     #   max_length: 500ms
     
     #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: lights_page 
-            # - component.update: s3_box_lcd
-
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: lights_page
@@ -1462,10 +1451,11 @@ binary_sensor:
     # on_click:
     #   min_length: 10ms
     #   max_length: 500ms
-    
+   
     #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: lights_page 
-            # - component.update: s3_box_lcd
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: lights_page
@@ -1479,9 +1469,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: lights_page 
-            # - component.update: s3_box_lcd
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: lights_page
@@ -1495,9 +1486,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: lights_page 
-            # - component.update: s3_box_lcd
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
 
   - platform: touchscreen
@@ -1512,11 +1504,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: lights_page 
-            # - component.update: s3_box_lcd
-
-
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: lights_page
@@ -1530,10 +1521,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: lights_page 
-            # - component.update: s3_box_lcd
-
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
     #### climate page ###
   - platform: touchscreen
@@ -1548,10 +1539,11 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: climate_page 
-            # - component.update: s3_box_lcd
-
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
+        
 #### Climate page buttons ####
   - platform: touchscreen
     page_id: climate_page
@@ -1565,10 +1557,10 @@ binary_sensor:
     #   min_length: 10ms
     #   max_length: 500ms
     
-        #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
-            # - display.page.show: climate_page 
-            # - component.update: s3_box_lcd   
-
+    #### make sure that the following 2 lines are uncommented and sit at the bottom of this block after your action ###
+      # then:
+        # - display.page.show: lights_page 
+        # - component.update: s3_box_lcd
 
   - platform: touchscreen
     page_id: climate_page
